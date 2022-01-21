@@ -28,7 +28,7 @@ const geoUrl =
       // declare the async data fetching function
       const fetchData = async () => {
         // get the data from the api
-        const response = await fetch('http://api.open-notify.org/iss-now.json');
+        const response = await fetch('https://api.wheretheiss.at/v1/satellites/25544');
 
         const data = await response.json();
         console.log(data);
@@ -56,7 +56,7 @@ const geoUrl =
               ))
             }
           </Geographies>
-          <Marker coordinates={[data ? data.iss_position.longitude : 25, data ? data.iss_position.longitude : 25]}>
+          <Marker coordinates={[data ? data.longitude : 25, data ? data.longitude : 25]}>
         <circle r={6} fill="#2ECCE7" />
       </Marker>
         </ZoomableGroup>
