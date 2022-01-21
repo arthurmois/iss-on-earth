@@ -19,24 +19,22 @@ var latitude;
 //   latitude = data.iss_position.latitude;
 // }
 
-
-
 const geoUrl =
   "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
   const MapChart = () => {
-    const [data,setData] = useState({"iss_position": {"latitude": "29.4752", "longitude": "25.1402"}});
+
     useEffect(() => {
       // declare the async data fetching function
       const fetchData = async () => {
         // get the data from the api
         const response = await fetch('http://api.open-notify.org/iss-now.json');
-        console.log(JSON.stringify(data));
-        // convert the data to json
-        const json = await response.json();
+
+        const data = await response.json();
+        console.log(data);
     
         // set state with the result
-        setData(json);
+        setData(data);
       }
     
       // call the function
@@ -44,6 +42,9 @@ const geoUrl =
         // make sure to catch any error
         .catch(console.error);;
     }, [])
+
+    const [data,setData] = useState();
+
   return (
     <div>
       <ComposableMap>
@@ -55,7 +56,7 @@ const geoUrl =
               ))
             }
           </Geographies>
-          <Marker coordinates={[data.iss_position.longitude, data.iss_position.longitude]}>
+          <Marker coordinates={[data ? data.iss_position.longitude : 25, data ? data.iss_position.longitude : 25]}>
         <circle r={6} fill="#2ECCE7" />
       </Marker>
         </ZoomableGroup>
