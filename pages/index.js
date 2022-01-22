@@ -5,7 +5,7 @@ import MapChart from "./MapChart";
 export default function Home() {
   return (
   <>
-    <h1 style={{margin:'20px'}}>Where is the ISS</h1>
+    <h1 style={{margin:'20px'}}>Where is the International Space Station</h1>
     <div>
           <MapChart />
         </div>
