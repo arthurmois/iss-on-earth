@@ -6,7 +6,7 @@ export default function Home() {
   return (
   <>
     <h1 style={{margin:'20px'}}>Where is the International Space Station</h1>
-    <div>
+    <div style={{marginLeft:'500px',marginRight:'500px', borderStyle: 'solid'}}>
           <MapChart />
         </div>
 
