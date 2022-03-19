@@ -6,7 +6,7 @@ import {
   Geographies,
   Geography,
   ZoomableGroup,
-  Marker
+  Marker,
 } from "react-simple-maps";
 
 var longitude;
@@ -22,28 +22,37 @@ var latitude;
 const geoUrl =
   "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
-  const MapChart = () => {
+const MapChart = () => {
+  const [alternate, setAlternate] = useState(true);
+  const MINUTE_MS = 2000;
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAlternate((previousAlt) => !previousAlt)
+    }, MINUTE_MS);
 
-    useEffect(() => {
-      // declare the async data fetching function
-      const fetchData = async () => {
-        // get the data from the api
-        const response = await fetch('https://api.wheretheiss.at/v1/satellites/25544');
+    return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+  }, []);
 
-        const data = await response.json();
-        console.log(data);
-    
-        // set state with the result
-        setData(data);
-      }
-    
-      // call the function
-      fetchData()
-        // make sure to catch any error
-        .catch(console.error);;
-    }, [])
+  useEffect(() => {
+    // declare the async data fetching function
+    async function fetchData() {
+      // get the data from the api
+      let response = await fetch(
+        "https://api.wheretheiss.at/v1/satellites/25544"
+      );
 
-    const [data,setData] = useState();
+      let data = await response.json();
+
+      // set state with the result
+      setData(data);
+      return data;
+    };
+
+    // call the function
+    fetchData();
+  }, [alternate]);
+
+  const [data, setData] = useState();
 
   return (
     <div>
@@ -51,14 +60,19 @@ const geoUrl =
         <ZoomableGroup zoom={1}>
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
-              geographies.map(geo => (
+              geographies.map((geo) => (
                 <Geography key={geo.rsmKey} geography={geo} />
               ))
             }
           </Geographies>
-          <Marker coordinates={[data ? data.longitude : 25, data ? data.longitude : 25]}>
-        <circle r={6} fill="#2ECCE7" />
-      </Marker>
+          <Marker
+            coordinates={[
+              data ? data.longitude : 25,
+              data ? data.longitude : 25,
+            ]}
+          >
+            <circle r={6} fill="#2ECCE7" />
+          </Marker>
         </ZoomableGroup>
       </ComposableMap>
     </div>
