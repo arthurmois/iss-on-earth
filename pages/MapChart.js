@@ -24,7 +24,7 @@ const geoUrl =
 
 const MapChart = () => {
   const [alternate, setAlternate] = useState(true);
-  const MINUTE_MS = 2000;
+  const MINUTE_MS = 3000;
   useEffect(() => {
     const interval = setInterval(() => {
       setAlternate((previousAlt) => !previousAlt)
