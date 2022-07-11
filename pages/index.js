@@ -9,7 +9,7 @@ export default function Home() {
         Where is the International Space Station
       </h1>
       <h3 style={{ margin: "20px", textAlign: "center" }}>
-        You may need to scroll around to find it ;)
+        You may need to drag around to find it ;)
       </h3>
       <div
         style={{
